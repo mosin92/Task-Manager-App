@@ -4,11 +4,10 @@ export const TaskContext = createContext();
 
  export const TaskListContextProvider = ({children}) => {
     const [task, settask] = useState([
-        { title: "Office work", id:1 },
-        {title:"Coding Assignment" , id:2}
+        
     ])
      
-     const { edititem, setedititem } = useState(null);
+     const [ edititem, setedititem ] = useState(null);
      
      const AddTask = (title) => {
          settask([...task,{title,id:Math.floor(Math.random() * 100000000)}])
@@ -24,6 +23,12 @@ export const TaskContext = createContext();
          const item = task.find(tasks => tasks.id === id);
          setedititem(item);
      }
+     const EditTask = (title, id) => {
+         const NewTask = task.map(tasks => tasks.id === id ? {title, id} : tasks);
+         settask(NewTask);
+         console.log(NewTask);
+         setedititem(null);
+     }
     return (
         <TaskContext.Provider value={{
             task,
@@ -31,7 +36,8 @@ export const TaskContext = createContext();
             RemoveTask,
             ClearTask,
             FindTask,
-            edititem
+            edititem,
+            EditTask
         }}>
             {children}
  
